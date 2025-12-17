@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Аналитика текущего сайта и рекомендации по переработке</title>
+    <style>
+      :root {
+        --bg: #ffffff;
+        --fg: #0b0f14;
+        --muted: #4b5563;
+        --border: #e5e7eb;
+        --card: #f8fafc;
+        --accent: #111827;
+        --max: 980px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        margin: 0;
+        color: var(--fg);
+        background: var(--bg);
+        font: 16px/1.6 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue",
+          sans-serif;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+
+      .wrap {
+        max-width: var(--max);
+        margin: 0 auto;
+        padding: 48px 20px 80px;
+      }
+
+      header {
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 24px;
+      }
+
+      h1 {
+        font-size: 32px;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+        margin: 0 0 10px;
+      }
+
+      .subtitle {
+        color: var(--muted);
+        margin: 0;
+        max-width: 72ch;
+      }
+
+      .meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 14px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .badge {
+        border: 1px solid var(--border);
+        background: var(--card);
+        padding: 4px 10px;
+        border-radius: 999px;
+        white-space: nowrap;
+      }
+
+      nav {
+        margin: 24px 0 34px;
+        padding: 16px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: var(--card);
+      }
+
+      nav h2 {
+        font-size: 14px;
+        margin: 0 0 10px;
+        color: var(--muted);
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+      }
+
+      nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+
+      section {
+        padding: 22px 0;
+        border-top: 1px solid var(--border);
+      }
+
+      section:first-of-type {
+        border-top: none;
+        padding-top: 0;
+      }
+
+      h2 {
+        font-size: 22px;
+        line-height: 1.25;
+        margin: 0 0 10px;
+        letter-spacing: -0.01em;
+      }
+
+      h3 {
+        font-size: 16px;
+        margin: 16px 0 8px;
+        letter-spacing: -0.01em;
+      }
+
+      p {
+        margin: 0 0 10px;
+      }
+
+      ul {
+        margin: 10px 0 10px 20px;
+      }
+
+      li {
+        margin: 6px 0;
+      }
+
+      blockquote {
+        margin: 16px 0;
+        padding: 12px 14px;
+        border-left: 3px solid var(--accent);
+        background: var(--card);
+        color: var(--fg);
+        border-radius: 8px;
+      }
+
+      .note {
+        margin-top: 14px;
+        padding: 14px 16px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: var(--card);
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .footer {
+        margin-top: 42px;
+        padding-top: 18px;
+        border-top: 1px solid var(--border);
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      @media print {
+        .wrap {
+          padding: 0;
+        }
+        nav {
+          break-inside: avoid;
+        }
+        section {
+          break-inside: avoid;
+        }
+        a {
+          text-decoration: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <h1>Аналитика текущего сайта и рекомендации по переработке</h1>
+        <p class="subtitle">
+          Холодный разбор: что и почему не работает, и какой должна быть архитектура, чтобы сайт стал понятным входом для
+          пользователя.
+        </p>
+        <div class="meta">
+          <span class="badge">Формат: Site Audit</span>
+          <span class="badge">Фокус: логика восприятия</span>
+          <span class="badge">Без брендинга</span>
+        </div>
+      </header>
+
+      <nav>
+        <h2>Содержание</h2>
+        <ul>
+          <li><a href="#impression">1. Общее впечатление</a></li>
+          <li><a href="#hero">2. Проблема первого экрана (Hero)</a></li>
+          <li><a href="#nav">3. Перегрузка навигации и смыслов</a></li>
+          <li><a href="#mix">4. Смешение бизнеса и личного контента</a></li>
+          <li><a href="#tone">5. Тон коммуникации</a></li>
+          <li><a href="#journey">6. Отсутствие чёткого сценария пользователя</a></li>
+          <li><a href="#recommendation">7. Ключевая рекомендация</a></li>
+          <li><a href="#effect">8. Ожидаемый эффект от переработки</a></li>
+          <li><a href="#summary">Итог</a></li>
+        </ul>
+      </nav>
+
+      <section id="impression">
+        <h2>1. Общее впечатление</h2>
+        <p>
+          Текущий сайт производит ощущение <strong>перегруженной витрины</strong>, а не понятного входа для пользователя.
+          На первом экране отсутствует чёткая ориентация: посетитель не понимает, <strong>кто перед ним</strong>,
+          <strong>зачем он здесь</strong> и <strong>что делать дальше</strong>.
+        </p>
+        <p>Сайт одновременно пытается:</p>
+        <ul>
+          <li>продавать услуги</li>
+          <li>демонстрировать статус</li>
+          <li>рассказывать о личности</li>
+          <li>показывать хобби</li>
+          <li>работать как блог</li>
+        </ul>
+        <p>В результате <strong>ни одна из задач не решается полноценно</strong>.</p>
+      </section>
+
+      <section id="hero">
+        <h2>2. Проблема первого экрана (Hero)</h2>
+
+        <h3>Что не работает</h3>
+        <ul>
+          <li>Имя человека используется как главный смысловой якорь</li>
+          <li>Присутствуют цифры, регалии, достижения</li>
+          <li>Первый экран читается как рекламная презентация</li>
+        </ul>
+
+        <p>Для холодного пользователя это выглядит как:</p>
+        <blockquote>«Очередной успешный агент / эксперт, который сейчас будет что-то продавать»</blockquote>
+        <p>Это снижает доверие и увеличивает вероятность закрытия страницы.</p>
+
+        <h3>Почему это проблема</h3>
+        <p>
+          Первый экран должен <strong>ориентировать</strong>, а не впечатлять. Пользователь сначала ищет ответ на вопрос:
+        </p>
+        <blockquote>«Я по адресу или нет?»</blockquote>
+        <p>
+          Сейчас сайт сразу требует внимания и доверия, <strong>не создав контекста</strong>.
+        </p>
+
+        <h3>Как должно быть</h3>
+        <ul>
+          <li>Первый экран должен отвечать на 3 вопроса: 1) Где я? 2) Кто здесь? 3) Почему мне стоит остаться?</li>
+          <li>Без цифр, достижений, продаж</li>
+          <li>Через спокойное описание роли и присутствия</li>
+        </ul>
+      </section>
+
+      <section id="nav">
+        <h2>3. Перегрузка навигации и смыслов</h2>
+
+        <h3>Что не работает</h3>
+        <p>В навигации одновременно присутствуют:</p>
+        <ul>
+          <li>услуги</li>
+          <li>блог</li>
+          <li>новости</li>
+          <li>партнёры</li>
+          <li>чай / философия</li>
+        </ul>
+        <p>Это создаёт ощущение хаоса и отсутствия приоритетов.</p>
+
+        <h3>Почему это проблема</h3>
+        <p>Пользователь не понимает:</p>
+        <ul>
+          <li>что здесь главное</li>
+          <li>что вторично</li>
+          <li>куда идти в первую очередь</li>
+        </ul>
+        <p>Навигация отражает <strong>внутреннюю структуру бизнеса</strong>, а не логику восприятия клиента.</p>
+
+        <h3>Как должно быть</h3>
+        <ul>
+          <li>Навигация должна быть минимальной</li>
+          <li>Основной фокус: Контекст (как всё устроено) / Присутствие (кто этот человек) / Контакт</li>
+          <li>Всё остальное — вторичные слои, доступные позже</li>
+        </ul>
+      </section>
+
+      <section id="mix">
+        <h2>4. Смешение бизнеса и личного контента</h2>
+
+        <h3>Что не работает</h3>
+        <ul>
+          <li>Недвижимость, инвестиции, личные размышления и чай находятся в одном уровне</li>
+          <li>Хобби и бизнес конкурируют за внимание</li>
+        </ul>
+
+        <h3>Почему это проблема</h3>
+        <p>Для части аудитории это выглядит как:</p>
+        <ul>
+          <li>несфокусированность</li>
+          <li>непонимание, чем человек реально занимается</li>
+          <li>снижение доверия к профессиональной части</li>
+        </ul>
+
+        <h3>Как должно быть</h3>
+        <ul>
+          <li>Бизнес-контент и личные практики должны быть разделены архитектурно</li>
+          <li>Личное — отдельный слой (например, отдельный раздел или субдомен)</li>
+          <li>Главная страница — только про присутствие и контекст</li>
+        </ul>
+      </section>
+
+      <section id="tone">
+        <h2>5. Тон коммуникации</h2>
+
+        <h3>Что не работает</h3>
+        <ul>
+          <li>Используются формулировки из презентаций и продаж</li>
+          <li>Присутствует демонстрация масштаба и успеха</li>
+        </ul>
+
+        <h3>Почему это проблема</h3>
+        <p>Для аудитории, принимающей серьёзные решения, это:</p>
+        <ul>
+          <li>не усиливает доверие</li>
+          <li>создаёт дистанцию</li>
+          <li>выглядит как маркетинг</li>
+        </ul>
+
+        <h3>Как должно быть</h3>
+        <ul>
+          <li>Спокойный, взрослый тон</li>
+          <li>Факты вместо лозунгов</li>
+          <li>Контекст вместо обещаний</li>
+        </ul>
+      </section>
+
+      <section id="journey">
+        <h2>6. Отсутствие чёткого сценария пользователя</h2>
+
+        <h3>Что не работает</h3>
+        <ul>
+          <li>Нет понятного пути: «зашёл → понял → решил → связался»</li>
+          <li>Много параллельных входов и CTA</li>
+        </ul>
+
+        <h3>Почему это проблема</h3>
+        <p>Пользователь не понимает:</p>
+        <ul>
+          <li>что от него хотят</li>
+          <li>когда и зачем ему писать</li>
+          <li>какой следующий шаг логичен</li>
+        </ul>
+
+        <h3>Как должно быть</h3>
+        <p>Один основной сценарий:</p>
+        <ol>
+          <li>Ориентация</li>
+          <li>Понимание контекста</li>
+          <li>Доверие</li>
+          <li>Спокойный контакт</li>
+        </ol>
+      </section>
+
+      <section id="recommendation">
+        <h2>7. Ключевая рекомендация</h2>
+        <p>Сайт нужно перестать воспринимать как:</p>
+        <ul>
+          <li>витрину услуг</li>
+          <li>презентацию достижений</li>
+          <li>личный блог</li>
+        </ul>
+        <p>И начать воспринимать как:</p>
+        <blockquote><strong>точку присутствия человека в конкретном месте и контексте</strong></blockquote>
+        <p>Это означает:</p>
+        <ul>
+          <li>убрать продажи с первого экрана</li>
+          <li>упростить структуру</li>
+          <li>разделить смысловые слои</li>
+          <li>сделать сайт тише и яснее</li>
+        </ul>
+      </section>
+
+      <section id="effect">
+        <h2>8. Ожидаемый эффект от переработки</h2>
+        <p>После изменений сайт:</p>
+        <ul>
+          <li>будет вызывать меньше сопротивления</li>
+          <li>станет понятнее для новой аудитории</li>
+          <li>усилит доверие</li>
+          <li>будет работать как основа для дальнейшего продвижения и маркетинга</li>
+        </ul>
+      </section>
+
+      <section id="summary">
+        <h2>Итог</h2>
+        <p>
+          Текущий сайт не «плохой», он <strong>перегружен и концептуально не собран</strong>.
+        </p>
+        <p>
+          Проблема не в дизайне и не в контенте по отдельности, а в отсутствии чёткой архитектуры смыслов.
+        </p>
+        <p><strong>Исправление этой архитектуры — приоритет №1.</strong></p>
+
+        <div class="note">
+          По запросу готовится следующая итерация: короткая версия (1–2 страницы), PDF-версия для отправки или адаптация
+          под формат «для собственника, без деталей».
+        </div>
+      </section>
+
+      <div class="footer">Документ подготовлен в формате независимого аудита цифрового продукта (site audit).</div>
+    </div>
+  </body>
+</html>
+
