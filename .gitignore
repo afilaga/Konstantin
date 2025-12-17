@@ -1,0 +1,14 @@
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Large local assets (keep outside git; use Git LFS if needed)
+/photo/
+*.pdf
+
+# Optional: local editor settings
+.idea/
+.vscode/
+
+# Backup (local only)
+/.git-web-backup/
